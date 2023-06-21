@@ -1,0 +1,12 @@
+{% extends 'share/base.html' %}
+
+{% block content %}
+  <h1>Student Details</h1>
+  <h2>{{ student.first_name }} {{ student.last_name }}</h2>
+  <p><strong>Date of Birth:</strong> {{ student.date_of_birth }}</p>
+  <p><strong>Email:</strong> {{ student.email }}</p>
+  <p><strong>Phone Number:</strong> {{ student.phone_number }}</p>
+  <p><strong>Address:</strong> {{ student.address }}</p>
+  <a href="{% url 'student_update' student.pk %}" class="btn btn-warning">Edit</a>
+  <a href="{% url 'student_delete' student.pk %}" class="btn btn-danger">Delete</a>
+{% endblock %}

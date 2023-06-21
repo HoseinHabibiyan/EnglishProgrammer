@@ -1,0 +1,21 @@
+
+{% extends 'share/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Book List
+{% endblock title %}
+
+{% block content %} 
+<h1>List of Current Books </h1>
+            <ul class="list-group list-group-flush">
+            {% for book in books %}
+               <a href="{% url 'book_detail' book.pk %}" class="list-group-item list-group-item-action">{{ book.name }}</a>
+            {% empty %}
+                <li class="list-group-item list-group-item-action">No books available</li>
+            {% endfor %}
+            </ul>
+            <hr/>
+            <a href="{% url 'book_create' %}" class="btn btn-primary float-right">Add New Book</a>
+
+{% endblock content %}
+

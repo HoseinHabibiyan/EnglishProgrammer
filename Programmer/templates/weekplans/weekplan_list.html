@@ -1,0 +1,40 @@
+{% extends 'share/base_wide.html' %}
+
+{% block content %}
+  <h1>Week Plans</h1>
+  <a href="{% url 'weekplan_create' %}" class="btn btn-primary mb-3 float-end">Add New</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>weekNumber</th>
+        <th>Task 1</th>
+        <th>Task 2</th>
+        <th>Task 3</th>
+        <th>Task 4</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for weekplan in weekplans %}
+        <tr>         
+          <td>{{ weekplan.Student.first_name }} {{ weekplan.Student.last_name }}</td>
+          <td>{{ weekplan.week_number }}</td>
+          <td>{{ weekplan.task1 }}</td>
+          <td>{{ weekplan.task2 }}</td>
+          <td>{{ weekplan.task3 }}</td>
+          <td>{{ weekplan.task4 }}</td>
+          <td>
+            <a class="btn btn-primary" href="{% url 'weekplan_detail' weekplan.pk %}">Detail</a>
+            <a class="btn btn-success" href="{% url 'weekplan_update' weekplan.pk %}">Edit</a>
+            <a class="btn btn-secondary" href="{% url 'weekplan_delete' weekplan.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No week plans available.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

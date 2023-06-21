@@ -1,0 +1,26 @@
+{% extends 'share/base.html' %}
+
+{% block content %}
+  <h1>Week Plan Details</h1>
+  <h3>Student: {{ weekplan.Student.first_name }} {{ weekplan.Student.last_name }}</h3>
+  <h4>Week: {{ weekplan.week_number }}</h4>
+
+<hr/>
+  <h4>Daily Programs:</h4>
+  {% for dailyprogram in weekplan.dailyprogram_set.all %}
+    <h5>Day: {{ dailyprogram.day }}</h5>
+    <ul>
+      <li>Task 1: {{ dailyprogram.task1 }}</li>
+      <li>Task 2: {{ dailyprogram.task2 }}</li>
+      <li>Task 3: {{ dailyprogram.task3 }}</li>
+      <li>Task 4: {{ dailyprogram.task4 }}</li>
+    </ul>
+  {% empty %}
+    <p>No daily programs found.</p>
+  {% endfor %}
+  <hr/>
+
+  <a href="{% url 'dailyprogram_create' weekplan.pk %}" class="btn btn-primary">Add New Daily Program</a>
+  <a href="{% url 'weekplan_update' weekplan.pk %}" class="btn btn-warning">Edit</a>
+  <a href="{% url 'weekplan_delete' weekplan.pk %}" class="btn btn-danger">Delete</a>
+{% endblock %}
