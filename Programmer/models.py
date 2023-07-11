@@ -1,11 +1,13 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from tinymce.models import HTMLField
 # Create your models here.
 class Book(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField()
-    link = models.URLField()
-
+    description = HTMLField()
+    link = models.URLField(default='empty')
+    cover = models.ImageField(upload_to='images/', default='https://placehold.co/400x600?text=No+Cover')
+    document = models.FileField(upload_to='docs/', default='empty')
     def __str__(self):
         return self.name
     
@@ -17,6 +19,7 @@ class Day(models.Model):
         return self.name    
 
 class Student(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=1)   
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=50)
     grade =  models.CharField(max_length=100)

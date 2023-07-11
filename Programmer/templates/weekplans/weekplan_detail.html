@@ -13,10 +13,10 @@
     <thead>
       <tr>
         <th scope="col"></th>
-        <th scope="col">{{ weekplan.task1.name }}</th>
-        <th scope="col">{{ weekplan.task2.name }}</th>
-        <th scope="col">{{ weekplan.task3.name }}</th>
-        <th scope="col">{{ weekplan.task4.name }}</th>
+        <th scope="col"><a class="btn btn-light" href="{% url 'book_detail' weekplan.task1.pk %}">{{ weekplan.task1.name }}</a></th>
+        <th scope="col"><a class="btn btn-light" href="{{ weekplan.task2.link }}">{{ weekplan.task2.name }}</a></th>
+        <th scope="col"><a class="btn btn-light" href="{{ weekplan.task3.link }}">{{ weekplan.task3.name }}</a></th>
+        <th scope="col"><a class="btn btn-light" href="{{ weekplan.task4.link }}">{{ weekplan.task4.name }}</a></th>
         <th scope="d-print-none col "></th>
       </tr>
     </thead>
@@ -35,8 +35,8 @@
     <td>{{ dailyprogram.task3}}</td>
     <td>{{ dailyprogram.task4}}</td>
    <td class="d-print-none">
-    <a href="{% url 'dailyprogram_update' weekplan_id=weekplan.id dailyprogram_id=dailyprogram.id %}" class="btn btn-outline-info">Edit</a>
-    <a href="{% url 'dailyprogram_delete' weekplan_id=weekplan.id dailyprogram_id=dailyprogram.id %}" class="btn btn-outline-danger">Delete</a>
+    {% comment %} <a href="{% url 'dailyprogram_update' weekplan_id=weekplan.id dailyprogram_id=dailyprogram.id %}" class="btn btn-outline-info">Edit</a>
+    <a href="{% url 'dailyprogram_delete' weekplan_id=weekplan.id dailyprogram_id=dailyprogram.id %}" class="btn btn-outline-danger">Delete</a> {% endcomment %}
     </td> 
   {% empty %}
     <td>No daily programs found.</td>
@@ -45,9 +45,9 @@
 </tbody>
 </table>
   <p>* = We have a class on this day :)</p>
-<div class="d-print-none">
+{% comment %} <div class="d-print-none">
   <a href="{% url 'dailyprogram_create' weekplan.pk %}" class="btn btn-success">Add a New Daily Program</a>
   <a href="{% url 'weekplan_update' weekplan.pk %}" class="btn btn-info">Edit Week plan</a>
   <a href="{% url 'weekplan_delete' weekplan.pk %}" class="btn btn-danger">Delete Week plan</a>
-</div>
+</div> {% endcomment %}
 {% endblock %}

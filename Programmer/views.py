@@ -2,6 +2,34 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import BookForm , WeekPlanForm ,StudentForm , DailyProgramForm ,UserRegistrationForm
 from .models import Book ,WeekPlan ,Student ,DailyProgram
 import pdb; pdb.set_trace()
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LogoutView
+from django.contrib.auth.decorators import login_required
+
+class CustomLogoutView(LogoutView):
+    template_name = 'logout.html'
+
+    def get_next_page(self):
+        next_page = super().get_next_page()
+        # Add any additional logic you need
+        return next_page
+    
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')  
+        else:
+            error_message = 'Invalid username or password'
+            return render(request, 'auth/login.html', {'error_message': error_message})
+    else:
+        return render(request, 'auth/login.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -22,10 +50,12 @@ def book_list(request):
     books = Book.objects.all()
     return render(request, 'books/book_list.html', {'books': books})
 
+
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
     return render(request, 'books/book_detail.html', {'book': book})
 
+@login_required
 def book_create(request):
     form = BookForm(request.POST or None)
     if form.is_valid():
@@ -33,6 +63,7 @@ def book_create(request):
         return redirect('book_list')
     return render(request, 'books/book_form.html', {'form': form})
 
+@login_required
 def book_update(request, pk):
     book = get_object_or_404(Book, pk=pk)
     form = BookForm(request.POST or None, instance=book)
@@ -41,6 +72,7 @@ def book_update(request, pk):
         return redirect('book_list')
     return render(request, 'books/book_form.html', {'form': form, 'book': book})
 
+@login_required
 def book_delete(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
@@ -54,14 +86,19 @@ def book_delete(request, pk):
 #                 Week Plan views                
 # ------------------------------------------------#
 
+@login_required
 def weekplan_list(request):
-    weekplans = WeekPlan.objects.all()
+    current_user = request.user
+    current_student = Student.objects.filter(user= current_user).first()
+    weekplans = WeekPlan.objects.filter(Student=current_student)
     return render(request, 'weekplans/weekplan_list.html', {'weekplans': weekplans})
 
+@login_required
 def weekplan_detail(request, pk):
     weekplan = get_object_or_404(WeekPlan, pk=pk)
     return render(request, 'weekplans/weekplan_detail.html', {'weekplan': weekplan})
 
+@login_required
 def weekplan_create(request):
     if request.method == 'POST':
         form = WeekPlanForm(request.POST)
@@ -72,6 +109,7 @@ def weekplan_create(request):
         form = WeekPlanForm()
     return render(request, 'weekplans/weekplan_form.html', {'form': form})
 
+@login_required
 def weekplan_update(request, pk):
     weekplan = get_object_or_404(WeekPlan, pk=pk)
     if request.method == 'POST':
@@ -83,6 +121,7 @@ def weekplan_update(request, pk):
         form = WeekPlanForm(instance=weekplan)
     return render(request, 'weekplans/weekplan_form.html', {'form': form})
 
+@login_required
 def weekplan_delete(request, pk):
     weekplan = get_object_or_404(WeekPlan, pk=pk)
     weekplan.delete()
@@ -93,14 +132,17 @@ def weekplan_delete(request, pk):
 #                 Student views                
 # ------------------------------------------------#
 
+@login_required
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'students/student_list.html', {'students': students})
 
+@login_required
 def student_detail(request, pk):
     student = Student.objects.get(pk=pk)
     return render(request, 'students/student_detail.html', {'student': student})
 
+@login_required
 def student_create(request):
     form = StudentForm()
 
@@ -112,6 +154,7 @@ def student_create(request):
 
     return render(request, 'students/student_form.html', {'form': form})
 
+@login_required
 def student_update(request, pk):
     student = Student.objects.get(pk=pk)
     form = StudentForm(instance=student)
@@ -124,6 +167,7 @@ def student_update(request, pk):
 
     return render(request, 'students/student_form.html', {'form': form, 'student': student})
 
+@login_required
 def student_delete(request, pk):
     student = Student.objects.get(pk=pk)
 
@@ -138,7 +182,7 @@ def student_delete(request, pk):
 #                Daily Program views                
 # ------------------------------------------------#
 
-
+@login_required
 def dailyprogram_create(request, weekplan_id):
     weekplanobject = get_object_or_404(WeekPlan, pk=weekplan_id)
      
@@ -152,6 +196,7 @@ def dailyprogram_create(request, weekplan_id):
         return redirect('weekplan_detail', weekplanobject.pk)
     return render(request, 'dailyprograms/dailyprogram_create.html', {'form': form, 'weekplan': weekplanobject})
 
+@login_required
 def dailyprogram_update(request, weekplan_id, dailyprogram_id):
     weekplan = get_object_or_404(WeekPlan, pk=weekplan_id)
     dailyprogram = get_object_or_404(DailyProgram, pk=dailyprogram_id)
@@ -161,11 +206,13 @@ def dailyprogram_update(request, weekplan_id, dailyprogram_id):
         return redirect('weekplan_detail', weekplan.pk)
     return render(request, 'dailyprograms/dailyprogram_update.html', {'form': form, 'weekplan': weekplan, 'dailyprogram': dailyprogram})
 
+@login_required
 def dailyprogram_detail(request, weekplan_id, dailyprogram_id):
     weekplan = get_object_or_404(WeekPlan, pk=weekplan_id)
     dailyprogram = get_object_or_404(DailyProgram, pk=dailyprogram_id)
     return render(request, 'dailyprograms/dailyprogram_detail.html', {'weekplan': weekplan, 'dailyprogram': dailyprogram})
 
+@login_required
 def dailyprogram_delete(request, weekplan_id, dailyprogram_id):
     weekplan = get_object_or_404(WeekPlan, pk=weekplan_id)
     dailyprogram = get_object_or_404(DailyProgram, pk=dailyprogram_id)

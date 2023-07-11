@@ -17,21 +17,21 @@ Book details -> {{ book.name }}
 <div class="book-details">
     <h1>{{ book.name }}</h1>
     <dl class="row">
-        <dt class="col-sm-3">ID:</dt>
-        <dd class="col-sm-9">{{ book.id }}</dd>
-
-        <dt class="col-sm-3">Description:</dt>
-        <dd class="col-sm-9">{{ book.description }}</dd>
-
-        <dt class="col-sm-3">Link:</dt>
-        <dd class="col-sm-9"><a href="{{ book.link }}">{{ book.link }}</a></dd>
+        <dd class="col-sm-3"> <img class="img-fluid" src=/media/{{book.cover}}/> </dd>
+        <dd class="col-sm-9">{{ book.description|safe }}</dd>
+        {% if book.document.url != 'empty' %}
+        <dd class="col-sm-3"><a class="btn btn-success" href="{{ book.document.url }}">Download</a></dd>
+        {% endif %}
+        {% if book.link != 'empty' %}
+        <dd class="col-sm-3"><a class="btn btn-info" href="{{ book.link }}">Browse Related Link</a></dd>
+        {% endif %}
     </dl>
     <hr/>
-            <a href="{% url 'book_update' book.pk %}"  class="btn btn-outline-primary">Edit</a>
+            {% comment %} <a href="{% url 'book_update' book.pk %}"  class="btn btn-outline-primary">Edit</a>
             <form action="{% url 'book_delete' book.pk %}" method="post" class="d-inline">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-secondary">Delete</button>
-            </form>
+            </form> {% endcomment %}
             <a href="{% url 'book_list' %}" class="btn btn-outline-success">Back to List</a>
            
     </div>

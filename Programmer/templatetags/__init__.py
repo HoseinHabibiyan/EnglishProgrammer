@@ -1,5 +1,5 @@
 from django import template
-from Programmer.custom_filters import add_css_class
+from Programmer.templatetags.custom_filters import add_css_class
 
 register = template.Library()
 
