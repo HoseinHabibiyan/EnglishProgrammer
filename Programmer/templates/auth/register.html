@@ -1,0 +1,28 @@
+{% extends 'share/base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+  <div class="register-form">
+    <h2>Register</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username |add_css_class:'form-control'}}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email |add_css_class:'form-control'}}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
+        {{ form.password1 |add_css_class:'form-control'}}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+        {{ form.password2 |add_css_class:'form-control'}}
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  </div>
+{% endblock %}

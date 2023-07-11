@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.weekplan_list, name='home'),
+    path('register/', views.register, name='register'),
     path('book_list/', views.book_list, name='book_list'),
     path('book_detail/<int:pk>/', views.book_detail, name='book_detail'),
     path('book_create/', views.book_create, name='book_create'),
@@ -21,6 +22,6 @@ urlpatterns = [
     path('dailyprogram_create/', views.dailyprogram_create, name='dailyprogram_create'),
     path('dailyprogram_create/<int:weekplan_id>/', views.dailyprogram_create, name='dailyprogram_create'),
     path('dailyprogram_detail/<int:pk>/', views.dailyprogram_detail, name='dailyprogram_detail'),
-    path('dailyprogram_update/<int:pk>/', views.dailyprogram_update, name='dailyprogram_update'),
-    path('dailyprogram_delete/<int:pk>/', views.dailyprogram_delete, name='dailyprogram_delete'),
+    path('dailyprogram_update/<int:weekplan_id>/<int:dailyprogram_id>/', views.dailyprogram_update, name='dailyprogram_update'),
+    path('dailyprogram_delete/<int:weekplan_id>/<int:dailyprogram_id>/', views.dailyprogram_delete, name='dailyprogram_delete'),
 ]

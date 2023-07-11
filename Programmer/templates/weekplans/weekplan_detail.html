@@ -1,26 +1,53 @@
-{% extends 'share/base.html' %}
-
+{% extends 'share/base_wide_printable.html' %}
+<style>
+  @media print {
+    .non-printable-area {
+      display: none;
+    }
+  }
+</style>
 {% block content %}
-  <h1>Week Plan Details</h1>
-  <h3>Student: {{ weekplan.Student.first_name }} {{ weekplan.Student.last_name }}</h3>
-  <h4>Week: {{ weekplan.week_number }}</h4>
-
+  <h4>Week Plan for:  {{ weekplan.Student.first_name }} {{ weekplan.Student.last_name }} | Week: {{ weekplan.week_number }}</h4> 
 <hr/>
-  <h4>Daily Programs:</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">{{ weekplan.task1.name }}</th>
+        <th scope="col">{{ weekplan.task2.name }}</th>
+        <th scope="col">{{ weekplan.task3.name }}</th>
+        <th scope="col">{{ weekplan.task4.name }}</th>
+        <th scope="d-print-none col "></th>
+      </tr>
+    </thead>
+    <tbody>
   {% for dailyprogram in weekplan.dailyprogram_set.all %}
-    <h5>Day: {{ dailyprogram.day }}</h5>
-    <ul>
-      <li>Task 1: {{ dailyprogram.task1 }}</li>
-      <li>Task 2: {{ dailyprogram.task2 }}</li>
-      <li>Task 3: {{ dailyprogram.task3 }}</li>
-      <li>Task 4: {{ dailyprogram.task4 }}</li>
-    </ul>
+  <tr>
+   
+    <th scope="row">
+      {{ dailyprogram.day }} 
+      {% if dailyprogram.classday %}
+      <span class="star">*</span>
+      {% endif %}
+    </th>
+    <td>{{ dailyprogram.task1}}</td>
+    <td>{{ dailyprogram.task2}}</td>
+    <td>{{ dailyprogram.task3}}</td>
+    <td>{{ dailyprogram.task4}}</td>
+   <td class="d-print-none">
+    <a href="{% url 'dailyprogram_update' weekplan_id=weekplan.id dailyprogram_id=dailyprogram.id %}" class="btn btn-outline-info">Edit</a>
+    <a href="{% url 'dailyprogram_delete' weekplan_id=weekplan.id dailyprogram_id=dailyprogram.id %}" class="btn btn-outline-danger">Delete</a>
+    </td> 
   {% empty %}
-    <p>No daily programs found.</p>
+    <td>No daily programs found.</td>
   {% endfor %}
-  <hr/>
-
-  <a href="{% url 'dailyprogram_create' weekplan.pk %}" class="btn btn-primary">Add New Daily Program</a>
-  <a href="{% url 'weekplan_update' weekplan.pk %}" class="btn btn-warning">Edit</a>
-  <a href="{% url 'weekplan_delete' weekplan.pk %}" class="btn btn-danger">Delete</a>
+</tr>
+</tbody>
+</table>
+  <p>* = We have a class on this day :)</p>
+<div class="d-print-none">
+  <a href="{% url 'dailyprogram_create' weekplan.pk %}" class="btn btn-success">Add a New Daily Program</a>
+  <a href="{% url 'weekplan_update' weekplan.pk %}" class="btn btn-info">Edit Week plan</a>
+  <a href="{% url 'weekplan_delete' weekplan.pk %}" class="btn btn-danger">Delete Week plan</a>
+</div>
 {% endblock %}

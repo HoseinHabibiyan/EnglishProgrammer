@@ -2,6 +2,15 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Book ,Student ,WeekPlan , DailyProgram
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class UserRegistrationForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -39,7 +48,7 @@ class StudentForm(forms.ModelForm):
 class DailyProgramForm(forms.ModelForm):
     class Meta:
         model = DailyProgram
-        fields = ['day', 'task1', 'task2', 'task3', 'task4']
+        fields = ['day', 'task1', 'task2', 'task3', 'task4', 'classday']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

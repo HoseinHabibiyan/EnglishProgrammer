@@ -1,7 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import BookForm , WeekPlanForm ,StudentForm , DailyProgramForm
+from .forms import BookForm , WeekPlanForm ,StudentForm , DailyProgramForm ,UserRegistrationForm
 from .models import Book ,WeekPlan ,Student ,DailyProgram
 import pdb; pdb.set_trace()
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Additional actions (e.g., login the user)
+            return redirect('home')  # Redirect to the desired page after successful registration
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'auth/register.html', {'form': form})
 
 # ------------------------------------------------#
 #                Book views                
@@ -123,7 +134,6 @@ def student_delete(request, pk):
     return render(request, 'students/student_confirm_delete.html', {'student': student})
 
 
-
 # ------------------------------------------------#
 #                Daily Program views                
 # ------------------------------------------------#
@@ -137,7 +147,7 @@ def dailyprogram_create(request, weekplan_id):
     if form.is_valid():
         dailyprogram = form.save(commit=False)
         weekplanobject = get_object_or_404(WeekPlan, pk=weekplan_id)
-        dailyprogram.weekplan = weekplanobject
+        dailyprogram.relatedweek = weekplanobject
         dailyprogram.save()
         return redirect('weekplan_detail', weekplanobject.pk)
     return render(request, 'dailyprograms/dailyprogram_create.html', {'form': form, 'weekplan': weekplanobject})
