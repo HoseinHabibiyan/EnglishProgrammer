@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import BookForm , WeekPlanForm ,StudentForm , DailyProgramForm ,UserRegistrationForm
-from .models import Book ,WeekPlan ,Student ,DailyProgram
-import pdb; pdb.set_trace()
+from .models import Refrence ,WeekPlan ,Student ,DailyProgram
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LogoutView
@@ -46,39 +45,14 @@ def register(request):
 #                Book views                
 # ------------------------------------------------#
 
-def book_list(request):
-    books = Book.objects.all()
-    return render(request, 'books/book_list.html', {'books': books})
+def refrence_list(request):
+    refrences = Refrence.objects.all()
+    return render(request, 'refrence/refrence_list.html', {'refrences': refrences})
 
 
-def book_detail(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    return render(request, 'books/book_detail.html', {'book': book})
-
-@login_required
-def book_create(request):
-    form = BookForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('book_list')
-    return render(request, 'books/book_form.html', {'form': form})
-
-@login_required
-def book_update(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    form = BookForm(request.POST or None, instance=book)
-    if form.is_valid():
-        form.save()
-        return redirect('book_list')
-    return render(request, 'books/book_form.html', {'form': form, 'book': book})
-
-@login_required
-def book_delete(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-    if request.method == 'POST':
-        book.delete()
-        return redirect('book_list')
-    return render(request, 'books/book_confirm_delete.html', {'book': book})
+def refrence_detail(request, pk):
+    refrence = get_object_or_404(Refrence, pk=pk)
+    return render(request, 'refrence/refrence_detail.html', {'refrence': refrence})
 
 
 

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 # Create your models here.
-class Book(models.Model):
+class Refrence(models.Model):
     name = models.CharField(max_length=100)
     description = HTMLField()
     link = models.URLField(default='empty')
@@ -10,7 +10,12 @@ class Book(models.Model):
     document = models.FileField(upload_to='docs/', default='empty')
     def __str__(self):
         return self.name
-    
+
+class Track(models.Model):
+    refrence = models.ForeignKey(Refrence, on_delete=models.CASCADE,default=1)   
+    name = models.CharField(max_length=100)
+    document = models.FileField(upload_to='tracks/', default='empty')
+
     
 class Day(models.Model):
     name = models.CharField(max_length=100)
@@ -35,10 +40,10 @@ class Student(models.Model):
 class WeekPlan(models.Model):  
     Student = models.ForeignKey(Student, on_delete=models.CASCADE,null=True)
     week_number = models.DecimalField(   decimal_places=0 , max_digits=3,default=1)
-    task1 = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='weekplan_task1')
-    task2 = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='weekplan_task2')
-    task3 = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='weekplan_task3')
-    task4 = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='weekplan_task4')
+    task1 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task1')
+    task2 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task2')
+    task3 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task3')
+    task4 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task4')
     def __str__(self):
         return f"Weekly Plan for {self.Student.first_name} {self.Student.last_name}"
     

@@ -1,0 +1,63 @@
+{% extends 'share/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Refrence details -> {{ refrence.name }}
+{% endblock title %}
+<style>
+    .book-details {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+</style>
+{% block content %} 
+<div class="book-details">
+    <h1>{{ refrence.name }}</h1>
+    <dl class="row">
+        <dd class="col-sm-3"> <img class="img-fluid" src=/media/{{refrence.cover}}/> </dd>
+        <dd class="col-sm-9">{{ refrence.description|safe }}</dd>
+        {% if refrence.document.url != 'empty' %}
+        <dd class="col-sm-3"><a class="btn btn-success" href="{{ refrence.document.url }}">Download Refrence</a></dd>
+        {% endif %}
+        {% if refrence.link != 'empty' %}
+        <dd class="col-sm-3"><a class="btn btn-info" href="{{ refrence.link }}">Browse Related Link</a></dd>
+        {% endif %}
+
+        <div class="accordion" id="accordionExample">
+            {% for track in refrence.track_set.all %}
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{track.document.name}}" aria-expanded="false" aria-controls="{{track.document.name}}">
+                    {{track.document.name}}
+                </button>
+              </h2>
+              <div id="{{track.document.name}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body center">
+                    <dd class="col-sm-6">
+                    <audio controls>
+                        <source src="{{track.document.url}}" type="audio/mpeg">
+                          Your browser does not support the audio element.
+                      </audio> 
+                    </ddd>
+                    <dd class="col-sm-3">
+                        <a class="btn " href="{{ track.document.url }}">Download this track</a>
+                    </ddd>
+                </div>
+              </div>
+            </div>  
+            {% empty %}
+              <dd>No Tracks found.</dd>
+            {% endfor %}
+          </div>
+       
+    </dl>
+    <hr/>           
+            <a href="{% url 'refrence_list' %}" class="btn btn-outline-success">Back to List</a>
+           
+    </div>
+   
+</div>
+{% endblock content %}

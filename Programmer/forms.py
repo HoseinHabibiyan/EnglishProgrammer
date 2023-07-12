@@ -1,7 +1,7 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Book ,Student ,WeekPlan , DailyProgram
+from .models import Refrence ,Student ,WeekPlan , DailyProgram
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -14,7 +14,7 @@ class UserRegistrationForm(UserCreationForm):
 
 class BookForm(forms.ModelForm):
     class Meta:
-        model = Book
+        model = Refrence
         fields = ['name', 'description', 'link']
 
     def __init__(self, *args, **kwargs):

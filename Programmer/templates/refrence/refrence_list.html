@@ -1,0 +1,33 @@
+
+{% extends 'share/base_wide.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Refrences List
+{% endblock title %}
+
+{% block content %} 
+<h1>List of Current Refrences </h1>
+          <div class="row row-cols-3 row-cols-md-4 g-4">
+            {% for refrence in refrences %}
+                <div class="col">
+            <a class="text-decoration-none" href="{% url 'refrence_detail' refrence.pk %}">
+               <div class="card h-100" >
+                {% if refrence.cover == 'empty' %}
+                <img src="https://placehold.co/400x500?text=No+Cover" class="card-img-top" alt={{refrence.name}} />
+                {% else %}
+                <img src=/media/{{refrence.cover}} class="card-img-top" alt={{ refrence.name }}/>
+                {%endif%}
+                <div class="card-body">
+                  <h5 class="card-title">{{ refrence.name }}</h5>
+                  <p class="card-text">{{ refrence.description |safe |truncatewords:10 }}</p>
+                </div>
+              </div>
+            </a>
+        </div>
+            {% empty %}
+                <li class="list-group-item list-group-item-action">No Refrences available</li>
+            {% endfor %}
+            </div>            
+            <hr/>
+{% endblock content %}
+
