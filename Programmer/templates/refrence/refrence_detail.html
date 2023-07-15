@@ -13,11 +13,22 @@ Refrence details -> {{ refrence.name }}
         background-color: #f9f9f9;
     }
 </style>
-{% block content %} 
+{% block content %}
 <div class="book-details">
-    <h1>{{ refrence.name }}</h1>
+    <h1>      
+      {{ refrence.name }}
+    </h1>
+      {% if refrence.seri %}
+       <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a  class="text-decoration-none" href="#">Home</a></li>
+          <li class="breadcrumb-item"><a class="text-decoration-none" href="#"> {{ refrence.seri.name }} </a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ refrence.name }}</li>
+        </ol>
+      </nav>
+      {% endif %}
     <dl class="row">
-        <dd class="col-sm-3"> <img class="img-fluid" src=/media/{{refrence.cover}}/> </dd>
+        <dd class="col-sm-3"> <img class="img-fluid" src=/media/{{refrence.cover}} /> </dd>
         <dd class="col-sm-9">{{ refrence.description|safe }}</dd>
         {% if refrence.document.url != 'empty' %}
         <dd class="col-sm-3"><a class="btn btn-success" href="{{ refrence.document.url }}">Download Refrence</a></dd>
@@ -25,39 +36,57 @@ Refrence details -> {{ refrence.name }}
         {% if refrence.link != 'empty' %}
         <dd class="col-sm-3"><a class="btn btn-info" href="{{ refrence.link }}">Browse Related Link</a></dd>
         {% endif %}
-
-        <div class="accordion" id="accordionExample">
+      </dl>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tracks-tab" data-bs-toggle="tab" href="#tracks" role="tab" aria-controls="tracks" aria-selected="true">Tracks</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="related-references-tab" data-bs-toggle="tab" href="#related-references" role="tab" aria-controls="related-references" aria-selected="false">Related References</a>
+        </li>
+    </ul>
+    
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="tracks" role="tabpanel" aria-labelledby="tracks-tab">
+          <div class="accordion" id="accordionExample">
             {% for track in refrence.track_set.all %}
             <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{track.document.name}}" aria-expanded="false" aria-controls="{{track.document.name}}">
-                    {{track.document.name}}
-                </button>
-              </h2>
-              <div id="{{track.document.name}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body center">
-                    <dd class="col-sm-6">
-                    <audio controls>
-                        <source src="{{track.document.url}}" type="audio/mpeg">
-                          Your browser does not support the audio element.
-                      </audio> 
-                    </ddd>
-                    <dd class="col-sm-3">
-                        <a class="btn " href="{{ track.document.url }}">Download this track</a>
-                    </ddd>
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{track.document.name}}" aria-expanded="false" aria-controls="{{track.document.name}}">
+                        {{track.name}}
+                    </button>
+                </h2>
+                <div id="{{track.document.name}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body center">
+                            <audio controls>
+                                <source src="{{track.document.url}}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <a class="btn " href="{{ track.document.url }}">Download this track</a>
+                    </div>
                 </div>
-              </div>
-            </div>  
+            </div>
             {% empty %}
-              <dd>No Tracks found.</dd>
+            <dd>No Tracks found.</dd>
             {% endfor %}
-          </div>
-       
-    </dl>
-    <hr/>           
-            <a href="{% url 'refrence_list' %}" class="btn btn-outline-success">Back to List</a>
-           
+        </div>
+        </div>
+        <div class="tab-pane fade" id="related-references" role="tabpanel" aria-labelledby="related-references-tab">
+          {% if refrence.related_references.exists  %}
+          <dl class="row">
+          {% for related_reference in refrence.related_references.all %}
+          <dd class="col-sm-3">
+            <img class="img-fluid" src=/media/{{related_reference.cover}} />
+          </dd>
+          {% endfor %}
+          {% endif %}
+        </div>
     </div>
-   
+    
 </div>
+
+<hr />
+<a href="{% url 'refrence_list' %}" class="btn btn-outline-success">Back to List</a>
+
+    
 {% endblock content %}

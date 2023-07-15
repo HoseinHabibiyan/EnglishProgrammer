@@ -18,9 +18,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'weekplan_list' %}">WeekPlans</a>
                 </li>
-                {% comment %} <li class="nav-item">
-                    <a class="nav-link" href="{% url 'student_list' %}">Students</a>
-                </li> {% endcomment %}
                 <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                 <li> <a class="nav-link" href="#">Welcome, {{ user.username }}</a></li>
                 {% else %}

@@ -26,8 +26,6 @@
           <td>{{ weekplan.task4 }}</td>
           <td>
             <a class="btn btn-primary" href="{% url 'weekplan_detail' weekplan.pk %}">Detail</a>
-            {% comment %} <a class="btn btn-success" href="{% url 'weekplan_update' weekplan.pk %}">Edit</a>
-            <a class="btn btn-secondary" href="{% url 'weekplan_delete' weekplan.pk %}">Delete</a> {% endcomment %}
           </td>
         </tr>
       {% empty %}

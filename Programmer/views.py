@@ -52,6 +52,8 @@ def refrence_list(request):
 
 def refrence_detail(request, pk):
     refrence = get_object_or_404(Refrence, pk=pk)
+    print(refrence.related_references.exists)
+    print(refrence.related_references.count)
     return render(request, 'refrence/refrence_detail.html', {'refrence': refrence})
 
 
