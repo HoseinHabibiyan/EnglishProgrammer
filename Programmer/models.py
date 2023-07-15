@@ -1,12 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
-# Create your models here.
+
+
+class RefrenceSeri(models.Model):
+    name = models.CharField(max_length=100)
+    cover = models.ImageField(upload_to='images/', default='empty')
+    
+    
 class Refrence(models.Model):
+    seri =  models.ForeignKey(RefrenceSeri, on_delete=models.CASCADE,null=True)   
     name = models.CharField(max_length=100)
     description = HTMLField()
     link = models.URLField(default='empty')
-    cover = models.ImageField(upload_to='images/', default='https://placehold.co/400x600?text=No+Cover')
+    cover = models.ImageField(upload_to='images/', default='empty')
     document = models.FileField(upload_to='docs/', default='empty')
     def __str__(self):
         return self.name

@@ -15,7 +15,7 @@ DEBUG = True
 ALLOWED_HOSTS = [    
     'English.Merkousha.ir',
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
     '46.249.100.108',
     ]
 
