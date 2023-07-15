@@ -7,7 +7,6 @@ class DailyProgramInline(admin.TabularInline):
 class WeekPlanModelAdmin(admin.ModelAdmin):
     inlines = [DailyProgramInline]
 
-
 class TracksInline(admin.TabularInline):
     model = Track
     extra = 10  # Number of extra forms to display

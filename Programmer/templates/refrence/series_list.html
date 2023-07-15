@@ -1,0 +1,33 @@
+
+{% extends 'share/base_wide.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+seri Series List
+{% endblock title %}
+
+{% block content %} 
+<h1>List of Current seri Series </h1>
+          <div class="row row-cols-3 row-cols-md-4 g-4">
+            {% for seri in series %}
+                <div class="col">
+            <a class="text-decoration-none" href="{% url 'refrence_seri_detail' seri.pk %}">
+               <div class="card h-100" >
+                {% if seri.cover == 'empty' %}
+                <img src="https://placehold.co/400x500?text=No+Cover" class="card-img-top" alt={{seri.name}} />
+                {% else %}
+                <img src=/media/{{seri.cover}} class="card-img-top" alt={{ seri.name }}/>
+                {%endif%}
+                <div class="card-body">
+                  <h5 class="card-title">{{ seri.name }}</h5>
+                  <p class="card-text">{{ seri.description |safe |truncatewords:10 }}</p>
+                </div>
+              </div>
+            </a>
+        </div>
+            {% empty %}
+                <li class="list-group-item list-group-item-action">No series available</li>
+            {% endfor %}
+            </div>            
+            <hr/>
+{% endblock content %}
+

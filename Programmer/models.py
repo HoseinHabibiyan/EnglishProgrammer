@@ -19,6 +19,8 @@ class Refrence(models.Model):
     link = models.URLField(default='empty')
     cover = models.ImageField(upload_to='images/', default='empty')
     document = models.FileField(upload_to='docs/', default='empty')
+    class Meta:
+        db_table = 'Refrence'  # New table name
     def __str__(self):
         return self.name
 
@@ -52,9 +54,9 @@ class WeekPlan(models.Model):
     Student = models.ForeignKey(Student, on_delete=models.CASCADE,null=True)
     week_number = models.DecimalField(   decimal_places=0 , max_digits=3,default=1)
     task1 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task1')
-    task2 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task2')
-    task3 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task3')
-    task4 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task4')
+    task2 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task2',null=True)
+    task3 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task3',null=True)
+    task4 = models.ForeignKey(Refrence, on_delete=models.CASCADE, related_name='weekplan_task4',null=True)
     def __str__(self):
         return f"Weekly Plan for {self.Student.first_name} {self.Student.last_name}"
     

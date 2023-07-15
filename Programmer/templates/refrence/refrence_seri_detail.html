@@ -1,0 +1,70 @@
+{% extends 'share/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+refrenceSeri details -> {{ refrenceSeri.name }}
+{% endblock title %}
+<style>
+    .book-details {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+</style>
+{% block content %}
+<div class="book-details">
+    <h1>      
+      {{ refrenceSeri.name }}
+    </h1>
+       <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a  class="text-decoration-none" href="#">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page"> {{ refrenceSeri.name }}</li>
+        </ol>
+      </nav>
+    <dl class="row">
+        <dd class="col-sm-3"> <img class="img-fluid" src=/media/{{refrenceSeri.cover}} /> </dd>
+        <dd class="col-sm-9">{{ refrenceSeri.description|safe }}</dd>
+      
+      </dl>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="related-references-tab" data-bs-toggle="tab" href="#related-references" role="tab" aria-controls="related-references" aria-selected="false">Related References</a>
+        </li>
+    </ul>
+    
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane active" id="related-references" role="tabpanel" aria-labelledby="related-references-tab">
+          <div class="row row-cols-3 row-cols-md-4 g-4">
+            {% for refrence in refrences %}
+                <div class="col">
+            <a class="text-decoration-none" href="{% url 'refrence_detail' refrence.pk %}">
+               <div class="card h-100" >
+                {% if refrence.cover == 'empty' %}
+                <img src="https://placehold.co/400x500?text=No+Cover" class="card-img-top" alt={{refrence.name}} />
+                {% else %}
+                <img src=/media/{{refrence.cover}} class="card-img-top" alt={{ refrence.name }}/>
+                {%endif%}
+                <div class="card-body">
+                  <p class="card-title">{{ refrence.name }}</p>
+                </div>
+              </div>
+            </a>
+        </div>
+            {% empty %}
+                <li class="list-group-item list-group-item-action">No Refrences available</li>
+            {% endfor %}
+            </div>        
+        </div>
+    </div>
+    
+</div>
+
+<hr />
+<a href="{% url 'refrence_series' %}" class="btn btn-outline-success">Back to List</a>
+
+    
+{% endblock content %}

@@ -22,7 +22,7 @@ Refrence details -> {{ refrence.name }}
        <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a  class="text-decoration-none" href="#">Home</a></li>
-          <li class="breadcrumb-item"><a class="text-decoration-none" href="#"> {{ refrence.seri.name }} </a></li>
+          <li class="breadcrumb-item"><a class="text-decoration-none" href="{% url 'refrence_seri_detail' refrence.seri.pk %}"> {{ refrence.seri.name }} </a></li>
           <li class="breadcrumb-item active" aria-current="page">{{ refrence.name }}</li>
         </ol>
       </nav>
@@ -76,7 +76,9 @@ Refrence details -> {{ refrence.name }}
           <dl class="row">
           {% for related_reference in refrence.related_references.all %}
           <dd class="col-sm-3">
+            <a href="{% url 'refrence_detail' related_reference.pk %}">
             <img class="img-fluid" src=/media/{{related_reference.cover}} />
+            </a>
           </dd>
           {% endfor %}
           {% endif %}

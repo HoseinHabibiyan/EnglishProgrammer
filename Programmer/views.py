@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import BookForm , WeekPlanForm ,StudentForm , DailyProgramForm ,UserRegistrationForm
-from .models import Refrence ,WeekPlan ,Student ,DailyProgram
+from .forms import UserRegistrationForm
+from .models import Refrence ,WeekPlan ,Student ,RefrenceSeri
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LogoutView
@@ -49,14 +49,22 @@ def refrence_list(request):
     refrences = Refrence.objects.all()
     return render(request, 'refrence/refrence_list.html', {'refrences': refrences})
 
+def refrence_series(request):
+    series = RefrenceSeri.objects.all()
+    return render(request, 'refrence/series_list.html', {'series': series})
 
 def refrence_detail(request, pk):
     refrence = get_object_or_404(Refrence, pk=pk)
-    print(refrence.related_references.exists)
-    print(refrence.related_references.count)
     return render(request, 'refrence/refrence_detail.html', {'refrence': refrence})
 
-
+def refrence_seri_detail(request, pk):
+    refrenceSeri = get_object_or_404(RefrenceSeri, pk=pk)
+    refrences = refrenceSeri.refrence_set.all()
+    context = {
+        'refrenceSeri': refrenceSeri,
+        'refrences': refrences,
+    }
+    return render(request, 'refrence/refrence_seri_detail.html', context)
 
 # ------------------------------------------------#
 #                 Week Plan views                
