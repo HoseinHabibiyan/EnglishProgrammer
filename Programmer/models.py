@@ -11,7 +11,10 @@ class RefrenceSeri(models.Model):
     
 class Refrence(models.Model):
     seri =  models.ForeignKey(RefrenceSeri, on_delete=models.CASCADE,null=True)   
+    related_references = models.ManyToManyField('self', blank=True)
     name = models.CharField(max_length=100)
+    author = models.CharField(max_length=100,null=True)
+    publisher =  models.CharField(max_length=100,null=True)
     description = HTMLField()
     link = models.URLField(default='empty')
     cover = models.ImageField(upload_to='images/', default='empty')

@@ -13,6 +13,7 @@ class TracksInline(admin.TabularInline):
     extra = 10  # Number of extra forms to display
 class RefrenceModelAdmin(admin.ModelAdmin):
     inlines = [TracksInline]
+    filter_horizontal = ['related_references']
 
 admin.site.register(Refrence,RefrenceModelAdmin)
 admin.site.register(RefrenceSeri)
