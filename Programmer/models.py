@@ -6,6 +6,7 @@ from tinymce.models import HTMLField
 class RefrenceSeri(models.Model):
     name = models.CharField(max_length=100)
     cover = models.ImageField(upload_to='images/', default='empty')
+    description = HTMLField(null=True)
     
     
 class Refrence(models.Model):
