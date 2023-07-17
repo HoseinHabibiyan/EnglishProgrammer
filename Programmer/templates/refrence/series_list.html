@@ -10,7 +10,7 @@ seri Series List
           <div class="row row-cols-3 row-cols-md-4 g-4">
             {% for seri in series %}
                 <div class="col">
-            <a class="text-decoration-none" href="{% url 'refrence_seri_detail' seri.pk %}">
+            <a class="text-decoration-none" href="{% url 'refrence_seri_detail' slug=seri.slug %}">
                <div class="card h-100" >
                 {% if seri.cover == 'empty' %}
                 <img src="https://placehold.co/400x500?text=No+Cover" class="card-img-top" alt={{seri.name}} />

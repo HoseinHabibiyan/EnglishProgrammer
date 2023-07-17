@@ -53,12 +53,12 @@ def refrence_series(request):
     series = RefrenceSeri.objects.all()
     return render(request, 'refrence/series_list.html', {'series': series})
 
-def refrence_detail(request, pk):
-    refrence = get_object_or_404(Refrence, pk=pk)
+def refrence_detail(request, slug):
+    refrence = get_object_or_404(Refrence, slug=slug)
     return render(request, 'refrence/refrence_detail.html', {'refrence': refrence})
 
-def refrence_seri_detail(request, pk):
-    refrenceSeri = get_object_or_404(RefrenceSeri, pk=pk)
+def refrence_seri_detail(request, slug ):
+    refrenceSeri = get_object_or_404(RefrenceSeri, slug=slug)
     refrences = refrenceSeri.refrence_set.all()
     context = {
         'refrenceSeri': refrenceSeri,
