@@ -9,7 +9,13 @@ from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-    return render(request, 'home.html')
+    refrenceSeri = RefrenceSeri.objects.all()
+    refrences = Refrence.objects.all()
+    context = {
+        'refrenceSeri': refrenceSeri,
+        'refrences': refrences,
+    }
+    return render(request, 'home.html',context)
 
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'
