@@ -4,10 +4,10 @@ from django.views.generic import RedirectView
 from django.conf.urls.static import static 
 from django.conf import settings  
 from django.contrib import admin
-from .views import refrence_list ,register , login_view , refrence_detail , refrence_list , weekplan_list , weekplan_detail, refrence_series , refrence_seri_detail
+from .views import refrence_list ,register , login_view , refrence_detail , refrence_list , weekplan_list , weekplan_detail, refrence_series , refrence_seri_detail, home
 
 urlpatterns = [
-    path('', refrence_list, name='home'),
+    path('', home, name='home'),
     path('register/', register, name='register'),
     path('accounts/login/', RedirectView.as_view(pattern_name='login', permanent=True)),
     path('login/',  login_view, name='login'),

@@ -6,6 +6,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth.decorators import login_required
 
+
+
+def home(request):
+    return render(request, 'home.html')
+
 class CustomLogoutView(LogoutView):
     template_name = 'logout.html'
 
