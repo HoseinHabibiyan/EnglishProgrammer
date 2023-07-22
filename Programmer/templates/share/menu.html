@@ -213,28 +213,32 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'refrence_list' %}">Refrences</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'refrence_series' %}">Refrence Series</a>
-                    </li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Refrences</a>
+						<ul class="dropdown-menu" aria-labelledby="demoMenu">
+							<li> <a class="dropdown-item" href="{% url 'refrence_list' %}">All Refrences</a></li>
+							<li> <a class="dropdown-item" href="{% url 'refrence_series' %}">Refrence Series</a></li>
+							<li> <a class="dropdown-item" href="{% url 'refrence_category' %}">Refrence Categories</a></li>
+							<li> <a class="dropdown-item" href="{% url 'language_list' %}">Languages</a></li>
+							<li> <a class="dropdown-item" href="{% url 'refrence_skill_level' %}">Skill Levels</a></li>
+							<li> <a class="dropdown-item" href="{% url 'refrence_keyword' %}">#Keywords</a></li>
+						</ul>
+					</li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'weekplan_list' %}">WeekPlans</a>
                     </li>
                     {% endif %}
-					
 				</ul>
 				<!-- Nav Main menu END -->
 
 				<!-- Nav Search START -->
 				<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
 					<div class="nav-item w-100">
-						<form class="position-relative">
-							<input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+						<form class="position-relative" method="GET" action="{% url 'search_refrences' %}">
+							<input class="form-control pe-5 bg-transparent" type="search" name="query" placeholder="Search" aria-label="Search">
 							<button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
-								<i class="fas fa-search fs-6 "></i>
+								<i class="fas fa-search fs-6"></i>
 							</button>
 						</form>
 					</div>

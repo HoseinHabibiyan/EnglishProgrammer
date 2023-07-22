@@ -43,7 +43,7 @@ Page content START -->
        <div class="d-flex justify-content-left">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-dots mb-0">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ refrenceSeri.name }}</li>
           </ol>
         </nav>
@@ -78,29 +78,49 @@ Page content START -->
             <h1 class="m-0">List of Related Refrences</h1>
             <!-- Course Grid START -->
 				    <div class="row g-4">
-              {% for refrence in refrences %}
-					<!-- Card item START -->
-					<div class="col-sm-6 col-lg-4 col-xl-4">
-           <a class="text-decoration-none" href="{% url 'refrence_detail' slug=refrence.slug %}">
-						<div class="card shadow h-100">
-							<!-- Image -->
-              {% if seri.cover == 'empty' %}
-              <img src="https://placehold.co/400x500?text=No+Cover" class="card-img-top" alt={{refrence.name}} />
-              {% else %}
-              <img src=/media/{{refrence.cover}} class="card-img-top" alt={{ refrence.name }}/>
-              {%endif%}
-							<!-- Card body -->
-							<div class="card-body pb-0">
-								<!-- Title -->
-                <P class="card-title">{{ refrence.name }}</p>
-                <p class="card-text text-decoration-none">{{ refrence.description |safe |truncatewords:10 }}</p>
-								
-							</div>
-							
+						{% for refrence in refrences %}
+						<!-- Card item START -->
+						<div class="col-sm-6 col-lg-4 col-xl-4">
+							<a class="text-decoration-none" href="{% url 'refrence_detail' slug=refrence.slug %}">
+								<div class="card shadow h-100">
+									<!-- Image -->
+									{% if seri.cover == 'empty' %}
+									<img src="https://placehold.co/400x500?text=No+Cover" class="card-img-top" alt={{refrence.name}} />
+									{% else %}
+									<img src=/media/{{refrence.cover}} class="card-img-top" alt={{ refrence.name }} />
+									{%endif%}
+									<!-- Card body -->
+									<div class="card-body pb-0">
+										<!-- Badge and favorite -->
+										<div class="d-flex justify-content-between mb-2">
+											<a href="{% url 'skill_level_detail' refrence.skill_level.pk %}" class="badge bg-purple bg-opacity-10 text-purple">{{refrence.skill_level.name}}</a>
+											<a href="{% url 'category_detail' refrence.category.pk %}" class="badge bg-blue bg-opacity-10 text-blue">{{refrence.category.name}}</a>
+											<a href="{% url 'language_detail' refrence.language.pk %}" class="badge bg-primary-subtle bg-opacity-10 text-green">{{refrence.language.name}}</a>
+										</div>
+										<!-- Title -->
+										<h5 class="card-title">{{ refrence.name }}</h5>
+										<p class="card-text">{{ refrence.description |safe |truncatewords:10 }}</p>
+	
+									</div>
+									<!-- Card footer -->
+									<div class="card-footer pt-0 pb-3">
+										<hr>
+										<div class="d-flex justify-content-between">
+											<!-- keywords -->
+											{% if refrence.keywords.exists %}
+											{% for keyword in refrence.keywords.all %}
+											<a href="{% url 'keyword_detail' keyword.pk %}" class="badge bg-blue bg-opacity-10 text-blue">{{ keyword.name }}</a>
+											{% endfor %}
+											{% else %}
+											No keywords found for this reference.
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</a>
 						</div>
-          </a>
-					</div>
-					<!-- Card item END -->
-          {% endfor %}
+	
+						<!-- Card item END -->
+						{% endfor %}
 
           {% endblock content %}          

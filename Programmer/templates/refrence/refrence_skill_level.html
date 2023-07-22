@@ -1,0 +1,78 @@
+
+{% extends 'share/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}	
+
+{% block title %}
+Skill Level List
+{% endblock title %}
+
+{% block content %} 
+<!-- =======================
+Page Banner START -->
+<section class="py-4">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="bg-light p-4 text-center rounded-3">
+					<h1 class="m-0">List of Current Skill Levels</h1>
+					<!-- Breadcrumb -->
+					<div class="d-flex justify-content-center">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb breadcrumb-dots mb-0">
+								<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+								<li class="breadcrumb-item active" aria-current="page">Skill Levels</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- =======================
+Page Banner END -->
+
+
+<!-- =======================
+Categories START -->
+<section>
+	<div class="container">
+		<!-- Title -->
+		<div class="row mb-4">
+
+			<div class="col-lg-8 mx-auto text-center">
+				<h2>Choose a Skill Level</h2>
+				<p class="mb-0">Perceived end knowledge certainly day sweetness why cordially</p>
+			</div>
+		</div>
+
+		<div class="row g-4">
+			{% for level in skill_level %}
+			<!-- Item -->
+			<div class="col-sm-6 col-md-4 col-xl-3">
+				<div class="card card-body bg-success bg-opacity-10 text-center position-relative btn-transition p-4">
+					<!-- Image -->
+					<div class="icon-xl bg-body mx-auto rounded-circle mb-3">
+						{% if level.cover == 'empty' %}
+						<img src="{% static 'assets/images/book/Book-Category-Icon.png'%}" class="card-img-top" alt={{level.name}} />
+						{% else %}
+						<img src=/media/{{level.cover}} class="card-img-top" alt={{ level.name }}/>
+						{%endif%}
+					</div>
+					<!-- Title --> 
+					<h5 class="mb-2"><a  href="{% url 'skill_level_detail' level.pk %}" class="stretched-link">{{level.name}}</a></h5>
+					<p class="mb-0">{{ level.refrence_set.count }} Refrence</p>
+				</div>
+			</div>
+			{% endfor %}
+			
+		</div>
+	</div>
+</section>
+<!-- =======================
+Categories END -->
+<!-- =======================
+Page content END -->
+
+{% endblock content %}

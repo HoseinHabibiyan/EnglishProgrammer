@@ -23,11 +23,36 @@ class RefrenceSeri(models.Model):
     
     def __str__(self):
         return self.name
-    
+
+
+class Language(models.Model):
+     name = models.CharField(max_length=100)   
+     cover = models.ImageField(upload_to='images/', default='empty')
+     def __str__(self):
+        return self.name
+class Skill_level(models.Model):
+     name = models.CharField(max_length=100)   
+     cover = models.ImageField(upload_to='images/', default='empty')
+     def __str__(self):
+        return self.name    
+class Category(models.Model):
+     name = models.CharField(max_length=100)  
+     cover = models.ImageField(upload_to='images/', default='empty')
+     description = HTMLField()
+     def __str__(self):
+        return self.name      
+class Keyword(models.Model):
+     name = models.CharField(max_length=100)  
+     def __str__(self):
+        return self.name       
     
 class Refrence(models.Model):
-    seri =  models.ForeignKey(RefrenceSeri, on_delete=models.CASCADE,null=True)   
+    seri =  models.ForeignKey(RefrenceSeri, on_delete=models.CASCADE,blank=True)   
+    language =  models.ForeignKey(Language, on_delete=models.CASCADE,blank=True,null=True)   
+    skill_level =  models.ForeignKey(Skill_level, on_delete=models.CASCADE,blank=True,null=True)   
+    category =  models.ForeignKey(Category, on_delete=models.CASCADE,blank=True,null=True)   
     related_references = models.ManyToManyField('self', blank=True)
+    keywords = models.ManyToManyField(Keyword, blank=True,null=True)
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, max_length=255, blank=True)
     author = models.CharField(max_length=100,null=True)

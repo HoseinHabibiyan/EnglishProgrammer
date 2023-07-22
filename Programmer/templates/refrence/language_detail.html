@@ -1,7 +1,7 @@
 {% extends 'share/base.html' %}
 {% load crispy_forms_tags %}
 {% block title %}
-Refrences List
+Refrence List of {{language.name}} language
 {% endblock title %}
 
 {% block content %}
@@ -12,13 +12,14 @@ Page Banner START -->
         <div class="row">
             <div class="col-12">
                 <div class="bg-light p-4 text-center rounded-3">
-                    <h1 class="m-0">List of Current Refrences</h1>
+                    <h1 class="m-0">Refrence List of {{language.name}} language </h1>
                     <!-- Breadcrumb -->
                     <div class="d-flex justify-content-center">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb breadcrumb-dots mb-0">
                                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Refrences</li>
+                                <li class="breadcrumb-item"><a href="{% url 'language_list' %}">Languages</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{language.name}}</li>
                             </ol>
                         </nav>
                     </div>
@@ -33,77 +34,6 @@ Page Banner END -->
 Page content START -->
 <section class="pt-0">
     <div class="container">
-
-        <!-- Filter bar START -->
-        <form class="bg-light border p-4 rounded-3 my-4 z-index-9 position-relative">
-            <div class="row g-3">
-                <!-- Input -->
-                <div class="col-xl-3">
-                    <input class="form-control me-1" type="search" placeholder="Enter keyword">
-                </div>
-
-                <!-- Select item -->
-                <div class="col-xl-8">
-                    <div class="row g-3">
-                        <!-- Select items -->
-                        <div class="col-sm-6 col-md-3 pb-2 pb-md-0">
-                            <select class="form-select form-select-sm js-choice" aria-label=".form-select-sm example">
-                                <option value="">Categories</option>
-                                <option>All</option>
-                                <option>Development</option>
-                                <option>Design</option>
-                                <option>Accounting</option>
-                                <option>Translation</option>
-                                <option>Finance</option>
-                                <option>Legal</option>
-                                <option>Photography</option>
-                                <option>Writing</option>
-                                <option>Marketing</option>
-                            </select>
-                        </div>
-
-                        <!-- Search item -->
-                        <div class="col-sm-6 col-md-3 pb-2 pb-md-0">
-                            <select class="form-select form-select-sm js-choice" aria-label=".form-select-sm example">
-                                <option value="">Price level</option>
-                                <option>All</option>
-                                <option>Free</option>
-                                <option>Paid</option>
-                            </select>
-                        </div>
-
-                        <!-- Search item -->
-                        <div class="col-sm-6 col-md-3 pb-2 pb-md-0">
-                            <select class="form-select form-select-sm js-choice" aria-label=".form-select-sm example">
-                                <option value="">Skill level</option>
-                                <option>All levels</option>
-                                <option>Beginner</option>
-                                <option>Intermediate</option>
-                                <option>Advanced</option>
-                            </select>
-                        </div>
-
-                        <!-- Search item -->
-                        <div class="col-sm-6 col-md-3 pb-2 pb-md-0">
-                            <select class="form-select form-select-sm js-choice" aria-label=".form-select-sm example">
-                                <option value="">Language</option>
-                                <option>English</option>
-                                <option>Francas</option>
-                                <option>Russian</option>
-                                <option>Hindi</option>
-                                <option>Bengali</option>
-                                <option>Spanish</option>
-                            </select>
-                        </div>
-                    </div> <!-- Row END -->
-                </div>
-                <!-- Button -->
-                <div class="col-xl-1">
-                    <button type="button" class="btn btn-primary mb-0 rounded z-index-1 w-100"><i class="fas fa-search"></i></button>
-                </div>
-            </div> <!-- Row END -->
-        </form>
-        <!-- Filter bar END -->
 
         <div class="row mt-3">
             <!-- Main content START -->
@@ -155,7 +85,7 @@ Page content START -->
 
                     <!-- Card item END -->
                     {% endfor %}
-                </div>
+
 
             </div>
             <!-- Course Grid END -->

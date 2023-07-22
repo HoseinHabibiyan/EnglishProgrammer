@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import UserRegistrationForm
-from .models import Refrence ,WeekPlan ,Student ,RefrenceSeri
+from .models import Refrence ,WeekPlan ,Student ,RefrenceSeri , Language, Category, Skill_level , Keyword
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LogoutView
@@ -46,7 +46,11 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            # Additional actions (e.g., login the user)
+            username = request.POST['username']
+            password = request.POST['password1']
+            print(request.POST['password1'])
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
             return redirect('home')  # Redirect to the desired page after successful registration
     else:
         form = UserRegistrationForm()
@@ -64,6 +68,59 @@ def refrence_series(request):
     series = RefrenceSeri.objects.all()
     return render(request, 'refrence/series_list.html', {'series': series})
 
+def language_list(request):
+    languages = Language.objects.all()
+    return render(request, 'refrence/language_list.html', {'languages': languages})
+
+def refrence_category(request):
+    categories = Category.objects.all()
+    return render(request, 'refrence/refrence_category.html', {'categories': categories})
+
+def refrence_skill_level(request):
+    skill_level = Skill_level.objects.all()
+    return render(request, 'refrence/refrence_skill_level.html', {'skill_level': skill_level})
+
+def refrence_keyword(request):
+    keywords = Keyword.objects.all()
+    return render(request, 'refrence/refrence_keyword.html', {'keywords': keywords})
+
+def language_detail(request, pk ):
+    language = get_object_or_404(Language, pk=pk)
+    refrences = language.refrence_set.all()
+    context = {
+        'language': language,
+        'refrences': refrences,
+    }
+    return render(request, 'refrence/language_detail.html', context)
+
+def category_detail(request, pk ):
+    category = get_object_or_404(Category, pk=pk)
+    refrences = category.refrence_set.all()
+    context = {
+        'category': category,
+        'refrences': refrences,
+    }
+    return render(request, 'refrence/category_detail.html', context)
+
+def keyword_detail(request, pk ):
+    keyword = get_object_or_404(Keyword, pk=pk)
+    refrences = keyword.refrence_set.all()
+    context = {
+        'keyword': keyword,
+        'refrences': refrences,
+    }
+    return render(request, 'refrence/keyword_detail.html', context)
+
+
+def skill_level_detail(request, pk ):
+    skill_level = get_object_or_404(Skill_level, pk=pk)
+    refrences = skill_level.refrence_set.all()
+    context = {
+        'skill_level': skill_level,
+        'refrences': refrences,
+    }
+    return render(request, 'refrence/skill_level_detail.html', context)
+
 def refrence_detail(request, slug):
     refrence = get_object_or_404(Refrence, slug=slug)
     return render(request, 'refrence/refrence_detail.html', {'refrence': refrence})
@@ -76,6 +133,12 @@ def refrence_seri_detail(request, slug ):
         'refrences': refrences,
     }
     return render(request, 'refrence/refrence_seri_detail.html', context)
+
+
+def search_refrences(request):
+    query = request.GET.get('query', '')
+    refrences = Refrence.objects.filter(name__icontains=query)
+    return render(request, 'refrence/search_results.html', {'query': query, 'refrences': refrences})
 
 # ------------------------------------------------#
 #                 Week Plan views                
