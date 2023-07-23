@@ -128,3 +128,4 @@ AUTHENTICATION_BACKENDS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "Programmer/templates/media"
 
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 MB in bytes
