@@ -61,7 +61,12 @@ class Refrence(models.Model):
     link = models.URLField(default='empty')
     cover = models.ImageField(upload_to='images/', default='empty')
     document = models.FileField(upload_to='docs/', default='empty')
+    year = models.CharField(max_length=5,null=True)
+    pages = models.CharField(max_length=5,null=True)
+    size = models.CharField(max_length=20,null=True)
+    ISBN = models.CharField(max_length=100)
 
+    
     def save(self, *args, **kwargs):
          if not self.slug:
             base_slug = slugify(self.name)
