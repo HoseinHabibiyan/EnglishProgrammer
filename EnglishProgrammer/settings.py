@@ -1,7 +1,8 @@
-
-
 import os
 from pathlib import Path  
+from datetime import timedelta
+from typing import List, Tuple
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,6 +35,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'tinymce',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +61,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Programmer.context_processors.categories',
             ],
         },
     },
@@ -105,8 +108,8 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-STATIC_ROOT = '/root/armin/EnglishProgrammer/static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = './static_files/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Programmer/static'),
 ]
@@ -125,7 +128,47 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "Programmer/templates/media"
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = BASE_DIR / "Programmer/templates/media"
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 MB in bytes
+
+
+
+################################################################
+###################S3 Configurations
+################################################################
+AWS_QUERYSTRING_AUTH = False
+
+DEFAULT_FILE_STORAGE = 'minio_storage.storage.MinioMediaStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STORAGES = {"default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"}}
+
+AWS_S3_ENDPOINT_URL = 'https://refhub.storage.iran.liara.space'
+AWS_S3_ACCESS_KEY_ID = 'm2prko9o0vhacb7n'
+AWS_S3_SECRET_ACCESS_KEY = 'a556090f-756f-4d42-88f6-531c580a0108'
+AWS_STORAGE_BUCKET_NAME = 'refhub'
+
+MINIO_STORAGE_ENDPOINT = 'refhub.storage.iran.liara.space'
+MINIO_STORAGE_ACCESS_KEY = 'm2prko9o0vhacb7n'
+MINIO_STORAGE_SECRET_KEY = 'a556090f-756f-4d42-88f6-531c580a0108'
+MINIO_SECRET_KEY = 'a556090f-756f-4d42-88f6-531c580a0108'
+MINIO_STORAGE_MEDIA_BUCKET_NAME = 'media'
+
+
+MINIO_STORAGE_USE_HTTPS = False
+MINIO_STORAGE_MEDIA_OBJECT_METADATA = {"Cache-Control": "max-age=1000"}
+MINIO_CONSISTENCY_CHECK_ON_START = True
+MINIO_QUERYSTRING_AUTH = False
+MINIO_REGION = 'us-east-1'  # Default is set to None
+MINIO_PRIVATE_BUCKETS = [
+    # 'django-backend-dev-private',
+]
+MINIO_PUBLIC_BUCKETS = [
+    'refhub',
+]
+MINIO_URL_EXPIRY_HOURS = timedelta(days=1)  # Default is 7 days (longest) if not defined
+
+
+STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/'
+MEDIA_URL =  f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/'

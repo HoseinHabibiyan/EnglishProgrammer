@@ -39,6 +39,8 @@ class Category(models.Model):
      name = models.CharField(max_length=100)  
      cover = models.ImageField(upload_to='images/', default='empty')
      description = HTMLField()
+     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='subcategories')
+     
      def __str__(self):
         return self.name      
 class Keyword(models.Model):
@@ -60,11 +62,11 @@ class Refrence(models.Model):
     description = HTMLField()
     link = models.URLField(default='empty')
     cover = models.ImageField(upload_to='images/', default='empty')
-    document = models.FileField(upload_to='docs/', default='empty')
+    document = models.FileField()
     year = models.CharField(max_length=5,null=True)
     pages = models.CharField(max_length=5,null=True)
     size = models.CharField(max_length=20,null=True)
-    ISBN = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=100,default='empty')
 
     
     def save(self, *args, **kwargs):
